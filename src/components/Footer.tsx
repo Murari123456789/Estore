@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaFacebookF, FaInstagram, FaTwitter, FaWhatsapp } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
@@ -57,9 +58,17 @@ const Footer = () => {
           <div>
             <h3 className="text-white font-bold mb-4">QUICK LINKS</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-white transition">All Products</a></li>
-              <li><a href="#" className="hover:text-white transition">My Account</a></li>
-              <li><a href="#" className="hover:text-white transition">Cart</a></li>
+              <li><Link to="/products" className="hover:text-white transition">All Products</Link></li>
+              <li><Link to="/sign-in" className="hover:text-white transition">My Account</Link></li>
+              <li>
+                <a href="#" onClick={(e) => {
+                  e.preventDefault();
+                  const cartIcon = document.querySelector<HTMLAnchorElement>('.cart-icon');
+                  if (cartIcon) {
+                    cartIcon.click();
+                  }
+                }} className="hover:text-white transition cursor-pointer">Cart</a>
+              </li>
             </ul>
           </div>
 

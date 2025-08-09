@@ -3,6 +3,10 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ShoppingCart, Search, User } from "lucide-react";
 import Logo from './Logo';
 
+const isActive = (path: string, location: string) => {
+  return path === location || (path === '/' && location === '/');
+};
+
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
@@ -39,14 +43,17 @@ const Header = () => {
 
         {/* Navigation */}
         <nav className="hidden md:flex space-x-8">
-          <Link to="/" className="hover:text-blue-400 transition-colors">
+          <Link 
+            to="/" 
+            className={`hover:text-blue-400 transition-colors ${isActive('/', location.pathname) ? 'text-blue-400' : ''}`}
+          >
             Home
           </Link>
-          <Link to="/products" className="hover:text-blue-400 transition-colors">
+          <Link 
+            to="/products" 
+            className={`hover:text-blue-400 transition-colors ${isActive('/products', location.pathname) ? 'text-blue-400' : ''}`}
+          >
             Products
-          </Link>
-          <Link to="/cart" className="hover:text-blue-400 transition-colors">
-            Cart
           </Link>
         </nav>
 
@@ -66,7 +73,7 @@ const Header = () => {
 
         {/* Actions */}
         <div className="hidden md:flex items-center space-x-4">
-          <Link to="/cart" className="relative p-2 hover:text-blue-400">
+          <Link to="/cart" className="relative p-2 hover:text-blue-400 cart-icon">
             <ShoppingCart className="h-5 w-5" />
           </Link>
           {isLoggedIn ? (

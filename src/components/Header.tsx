@@ -1,11 +1,25 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ShoppingCart, Search, User } from "lucide-react";
 import Logo from './Logo';
 
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+
+  const handleLogout = () => {
+    localStorage.removeItem('isLoggedIn');
+    navigate('/');
+  };
+
+  useEffect(() => {
+    // Clear search term when navigating away from search results
+    if (location.pathname !== '/products') {
+      setSearchTerm('');
+    }
+  }, [location.pathname]);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,6 +45,9 @@ const Header = () => {
           <Link to="/products" className="hover:text-blue-400 transition-colors">
             Products
           </Link>
+          <Link to="/cart" className="hover:text-blue-400 transition-colors">
+            Cart
+          </Link>
         </nav>
 
         {/* Search */}
@@ -52,10 +69,20 @@ const Header = () => {
           <Link to="/cart" className="relative p-2 hover:text-blue-400">
             <ShoppingCart className="h-5 w-5" />
           </Link>
-          <Link to="/sign-in" className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200">
-            <User className="h-4 w-4" />
-            <span>Sign In</span>
-          </Link>
+          {isLoggedIn ? (
+            <button
+              onClick={handleLogout}
+              className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200"
+            >
+              <User className="h-4 w-4" />
+              <span>Logout</span>
+            </button>
+          ) : (
+            <Link to="/sign-in" className="flex items-center space-x-2 px-4 py-2 bg-gray-100 text-gray-800 rounded-lg hover:bg-gray-200">
+              <User className="h-4 w-4" />
+              <span>Sign In</span>
+            </Link>
+          )}
         </div>
       </div>
     </header>

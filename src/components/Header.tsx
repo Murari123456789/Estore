@@ -1,9 +1,18 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, Search, User } from "lucide-react";
 
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      navigate(`/products?search=${encodeURIComponent(searchTerm.trim())}`);
+      setSearchTerm("");
+    }
+  };
 
   return (
     <header className="bg-gray-900 text-white">
@@ -24,7 +33,7 @@ const Header = () => {
         </nav>
 
         {/* Search */}
-        <div className="hidden md:flex-1 max-w-md mx-8">
+        <form onSubmit={handleSearch} className="flex-1 max-w-md mx-8">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
@@ -35,7 +44,7 @@ const Header = () => {
               className="w-full pl-10 pr-4 py-2 rounded-md bg-white text-black focus:ring-2 focus:ring-blue-500"
             />
           </div>
-        </div>
+        </form>
 
         {/* Actions */}
         <div className="hidden md:flex items-center space-x-4">

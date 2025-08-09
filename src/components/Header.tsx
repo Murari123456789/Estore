@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, Search, User } from "lucide-react";
+import Logo from './Logo';
 
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,8 +19,8 @@ const Header = () => {
     <header className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="text-xl font-bold">
-          SM Electronics
+        <Link to="/" className="flex items-center">
+          <Logo className="h-8 w-auto" />
         </Link>
 
         {/* Navigation */}
